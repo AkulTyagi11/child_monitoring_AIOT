@@ -1,0 +1,7 @@
+# .gitignore
+/models/deploy.prototxt
+/models/mobilenet_iter_73000.caffemodel
+# Ignore Python bytecode
+__pycache__
+*.py[cod]
+.env
