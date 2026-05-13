@@ -1,4 +1,3 @@
-=======
 # AIoT Child Monitoring (Local)
 
 This project uses OpenCV DNN (Caffe MobileNet-SSD) to detect people from a camera stream and trigger alerts through a FastAPI endpoint. Alerts can be sent via Telegram and/or Gmail based on .env toggles.
@@ -18,7 +17,6 @@ child_monitoring_AIOT/
 ## Setup
 1. Create a virtual environment.
 2. Install dependencies:
->>>>>>> f6db460 (Updated README & minor changes)
 ```
 pip install -r requirements.txt
 ```
@@ -57,18 +55,3 @@ Optional: send a one-off alert test:
 python alert_system.py
 ```
 This will send notifications based on the configured settings.
-
-## TO RUN THE PROGRAM
-
-- Fill the required things in .env file;
-- make the changes needed there.
-
-### Server
-`uvicorn server:app --reload to`
-
-### Telegram bot
-`py telegram_alert.py`
-
-### main file
-`py ai.py`
-```
