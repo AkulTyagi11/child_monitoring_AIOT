@@ -7,11 +7,11 @@ app = FastAPI()
 @app.post("/trigger_alert")  # Ensure this is POST
 def trigger_alert():
     try:
-        alert_id = send_alert()
+        details = send_alert()
         return {
             "status": "success",
             "message": "Alert Sent",
-            "alert_id": alert_id,
+            "details": details,
             "timestamp": datetime.now().isoformat()
         }
     except Exception as e:

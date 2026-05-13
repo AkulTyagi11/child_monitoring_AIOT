@@ -26,6 +26,7 @@ if ENABLE_TELEGRAM_ALERT:
 def send_alert():
     subject = "🚨 Child Monitoring Alert!"
     body = "⚠️ ALERT! No person detected for 10 seconds. Please check immediately."
+    results = {"email": None, "telegram": None}
 
     # === EMAIL ALERT ===
     if ENABLE_EMAIL_ALERT:
@@ -41,8 +42,10 @@ def send_alert():
             server.sendmail(EMAIL_ADDRESS, EMAIL_RECEIVER, msg.as_string())
             server.quit()
             print("✅ Email alert sent successfully!")
+            results["email"] = True
         except Exception as e:
             print(f"❌ Failed to send email: {e}")
+            results["email"] = False
 
     # === TELEGRAM ALERT ===
     if ENABLE_TELEGRAM_ALERT:
@@ -55,7 +58,16 @@ def send_alert():
             response = requests.post(url, data=payload)
             if response.status_code == 200:
                 print("✅ Telegram alert sent successfully!")
+                results["telegram"] = True
             else:
                 print(f"❌ Failed to send Telegram alert: {response.text}")
+                results["telegram"] = False
         except Exception as e:
             print(f"❌ Telegram API Error: {e}")
+            results["telegram"] = False
+
+    return results
+
+
+if __name__ == "__main__":
+    send_alert()

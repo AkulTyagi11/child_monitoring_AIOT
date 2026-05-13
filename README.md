@@ -1,36 +1,58 @@
-## Notification Feature
+=======
+# AIoT Child Monitoring (Local)
 
-This project includes a Notification System that can send alerts via Telegram and Gmail. You can configure it to send notifications through one or both services based on your preference.
+This project uses OpenCV DNN (Caffe MobileNet-SSD) to detect people from a camera stream and trigger alerts through a FastAPI endpoint. Alerts can be sent via Telegram and/or Gmail based on .env toggles.
 
-### Telegram Notification
-
-- Uses a Telegram bot to send alerts to a specified chat.
-- Requires a Telegram Bot Token and Chat ID.
-- Can be toggled on/off in the settings.
-
-### Gmail Notification
-
-- Sends email alerts using SMTP.
-- Requires a Google App Password for authentication.
-- Can be toggled on/off in the settings.
-
-### Configuration
-
-Rename `example.env` to `.env` and add your credentials:
+## Project Layout
 ```
-TELEGRAM_BOT_TOKEN=your_telegram_bot_token
-TELEGRAM_CHAT_ID=your_chat_id
-EMAIL_ADDRESS=your_email@gmail.com
-EMAIL_PASSWORD=your_app_password
-EMAIL_RECEIVER=receiver_email@gmail.com
+child_monitoring_AIOT/
+├─ ai.py
+├─ alert_system.py
+├─ server.py
+├─ telegram_alert.py
+├─ example.env
+├─ requirements.txt
+└─ README.md
 ```
-Ensure your bot is active and has permission to send messages.
-Enable Less Secure Apps or use App Passwords for Gmail.
 
-### Usage
+## Setup
+1. Create a virtual environment.
+2. Install dependencies:
+>>>>>>> f6db460 (Updated README & minor changes)
+```
+pip install -r requirements.txt
+```
+3. Copy example.env to .env and update the values.
 
-Run the alert system:
+## Configuration (.env)
+Copy example.env to .env and fill in the values below:
+- USE_ESPCAM / USE_LAPTOP_CAM: set one to true, the other to false.
+- ESP32_STREAM_URL: required when USE_ESPCAM=true.
+- NO_PERSON_ALERT_TIME: seconds to wait before triggering an alert.
+- ENABLE_EMAIL_ALERT / ENABLE_TELEGRAM_ALERT: toggle alert channels.
+- EMAIL_SENDER / EMAIL_PASSWORD / EMAIL_RECEIVER: Gmail SMTP settings.
+- TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID: Telegram alert settings.
+- PROTOTXT_PATH / WEIGHTS_PATH: paths to the Caffe model files.
 
+For Gmail, use a Google App Password (recommended).
+
+## Run
+Start the API server (FastAPI):
+```
+python -m uvicorn server:app --reload --host 0.0.0.0 --port 8000
+```
+
+Start the AI detection loop:
+```
+python ai.py
+```
+
+Optional: run the Telegram bot for manual commands:
+```
+python telegram_alert.py
+```
+
+Optional: send a one-off alert test:
 ```
 python alert_system.py
 ```
@@ -49,3 +71,4 @@ This will send notifications based on the configured settings.
 
 ### main file
 `py ai.py`
+```
